@@ -50,3 +50,8 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, () => {
   console.log('SEC Proxy running on port ' + PORT);
 });
+setInterval(function() {
+  https.get("https://sec-proxy-sw0n.onrender.com/health", function(res) {
+    console.log("Keep-alive: " + res.statusCode);
+  }).on('error', function(e) {});
+}, 10 * 60 * 1000);
