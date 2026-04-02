@@ -42,7 +42,19 @@ const server = http.createServer(async (req, res) => {
     }
     return;
   }
-  
+  if (req.url.startsWith('/filing?url=')) {
+    var fileUrl = decodeURIComponent(req.url.replace('/filing?url=', ''));
+    try {
+      var urlObj = new URL(fileUrl);
+      var result = await fetchSEC(urlObj.pathname);
+      res.writeHead(result.status, {'Content-Type': 'text/html'});
+      res.end(result.data);
+    } catch(e) {
+      res.writeHead(500);
+      res.end('Error: ' + e.message);
+    }
+    return;
+  }
   res.writeHead(404);
   res.end('Not found');
 });
