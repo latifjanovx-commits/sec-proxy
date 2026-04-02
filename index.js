@@ -46,7 +46,7 @@ const server = http.createServer(async (req, res) => {
     var fileUrl = decodeURIComponent(req.url.replace('/filing?url=', ''));
     try {
       var urlObj = new URL(fileUrl);
-      var result = await fetchSEC(urlObj.pathname);
+      var result = await fetchSEC(urlObj.pathname + (urlObj.search || ''));
       res.writeHead(result.status, {'Content-Type': 'text/html'});
       res.end(result.data);
     } catch(e) {
